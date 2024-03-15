@@ -3,7 +3,7 @@
 namespace App\Interfaces;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserRepositoryInterface
 {
@@ -12,7 +12,7 @@ interface UserRepositoryInterface
      *
      * @param  array  $relationship
      */
-    public function getAllUsers(?array $relationNames = []): Collection;
+    public function getAllUsers(?array $relationNames = []): LengthAwarePaginator;
 
     /**
      * Create a new user

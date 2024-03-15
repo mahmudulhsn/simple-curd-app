@@ -1,9 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Users List') }}
-            <button class="float-right bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Add new
-                user</button>
+            Users List
+            <a href="{{ route('users.create') }}"
+                class="float-right bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Add new
+                user</a>
         </h2>
     </x-slot>
 
@@ -11,12 +12,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block w-full py-2 sm:px-6 lg:px-8">
-                        <div>
+                    @if ($users)
+                        <div class="inline-block w-full py-2 sm:px-6 lg:px-8">
                             <table class="w-full text-left text-sm font-light text-surface">
                                 <thead class="border-b border-neutral-200 font-medium ">
                                     <tr class="border-b border-neutral-200">
-                                        <td class="whitespace-nowrap px-6 py-4 font-medium">#</td>
                                         <td class="whitespace-nowrap px-6 py-4">Name</td>
                                         <td class="whitespace-nowrap px-6 py-4">Email</td>
                                         <td class="whitespace-nowrap px-6 py-4">Address</td>
@@ -26,26 +26,39 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr class="border-b border-neutral-200">
-                                            <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->email }}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->adddress }}</td>
                                             <td class="whitespace-nowrap px-6 py-4 float-right">
                                                 <button
                                                     class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
-                                                    Edit
+                                                    <a href="{{ route('users.edit', $user->id) }}">
+                                                        Edit
+                                                    </a>
                                                 </button>
-                                                <button
-                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                                    Delete
-                                                </button>
+                                                <form action="{{ route('users.destroy', $user->id) }}" method="post"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button
+                                                        onclick="return confirm('Are you sure you want to delete this?')"
+                                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                        Delete
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                        {{ $users->links() }}
+                    @else
+                        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                            <p class="font-bold">Alert!</p>
+                            <p>No data found.</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService
 {
@@ -21,7 +21,7 @@ class UserService
     /**
      * Return all the user
      */
-    public function getAllUsers(?array $relationNames = []): Collection
+    public function getAllUsers(?array $relationNames = []): LengthAwarePaginator
     {
         return $this->userRepository->getAllUsers($relationNames);
     }

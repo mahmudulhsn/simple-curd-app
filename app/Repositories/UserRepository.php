@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -21,14 +21,14 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Return all the user
      */
-    public function getAllUsers(?array $relationNames = []): Collection
+    public function getAllUsers(?array $relationNames = []): LengthAwarePaginator
     {
         return $this->model
-            ->when(!empty($relationNames), function ($query) use ($relationNames) {
+            ->when(! empty($relationNames), function ($query) use ($relationNames) {
                 return $query->with($relationNames);
             })
             ->oldest('name')
-            ->get();
+            ->paginate(10);
     }
 
     /**
@@ -44,7 +44,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUserById(int $userID, ?array $relationNames = []): User
     {
-        return $this->model->when(!empty($relationNames), function ($query) use ($relationNames) {
+        return $this->model->when(! empty($relationNames), function ($query) use ($relationNames) {
             return $query->with($relationNames);
         })->where('id', $userID)->latest()->first();
     }
