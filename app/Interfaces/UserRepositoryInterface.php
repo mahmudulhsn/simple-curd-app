@@ -22,7 +22,7 @@ interface UserRepositoryInterface
     /**
      * Find user user by id and return user
      */
-    public function getUserById(int $userID, ?array $relationNames = []): User;
+    public function getUserById(int $userID, ?array $relationNames = [], ?string $withTrashed = null): User;
 
     /**
      * Update a a user
@@ -30,7 +30,22 @@ interface UserRepositoryInterface
     public function updateUser(object $user, array $newDetails): bool;
 
     /**
-     * Delete a user
+     * Temporary delete a user
      */
     public function deleteUser(object $user): bool;
+
+    /**
+     * Restore a user
+     */
+    public function restore(object $user): bool;
+
+    /**
+     * Force delete a user
+     */
+    public function forceDelete(object $user): bool;
+
+    /**
+     * Restore all deleted users
+     */
+    public function restoreAll(): bool;
 }

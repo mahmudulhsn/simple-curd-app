@@ -1,11 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Users List
-            <a href="{{ route('users.create') }}"
-                class="float-right bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Add new
-                user</a>
-        </h2>
+        <div class="flex justify-between">
+            <div>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Users List
+                </h2>
+            </div>
+            <div class="w-50 flex gap-2">
+                <a href="{{ route('users.create') }}"
+                    class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">Trash</a>
+                <a href="{{ route('users.create') }}"
+                    class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Add new
+                    user</a>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">

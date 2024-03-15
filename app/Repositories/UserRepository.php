@@ -42,10 +42,12 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Find user by ID and return the user object
      */
-    public function getUserById(int $userID, ?array $relationNames = []): User
+    public function getUserById(int $userID, ?array $relationNames = [], ?string $withTrashed = null): User
     {
         return $this->model->when(! empty($relationNames), function ($query) use ($relationNames) {
             return $query->with($relationNames);
+        })->when(($withTrashed == 'withTrashed'), function ($query) {
+            return $query->withTrashed();
         })->where('id', $userID)->latest()->first();
     }
 
@@ -58,10 +60,34 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Delete a single user
+     * Temporary delete a user
      */
     public function deleteUser(object $user): bool
     {
         return $user->delete();
+    }
+
+    /**
+     * Restore a user
+     */
+    public function restore(object $user): bool
+    {
+        return $user->restore();
+    }
+
+    /**
+     * Force delete a user
+     */
+    public function forceDelete(object $user): bool
+    {
+        return $user->forceDelete();
+    }
+
+    /**
+     * Restore all deleted users
+     */
+    public function restoreAll(): bool
+    {
+        return $this->model->onlyTrashed()->restore();
     }
 }

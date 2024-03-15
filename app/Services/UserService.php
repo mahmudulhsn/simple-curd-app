@@ -37,9 +37,9 @@ class UserService
     /**
      * Find user by ID and return the user object
      */
-    public function getUserById(int $userID, ?array $relationNames = []): User
+    public function getUserById(int $userID, ?array $relationNames = [], ?string $withTrashed = null): User
     {
-        return $this->userRepository->getUserById($userID, $relationNames);
+        return $this->userRepository->getUserById($userID, $relationNames, $withTrashed);
     }
 
     /**
@@ -56,5 +56,29 @@ class UserService
     public function deleteUser(object $user): bool
     {
         return $this->userRepository->deleteUser($user);
+    }
+
+    /**
+     * Restore a user
+     */
+    public function restore(object $user): bool
+    {
+        return $this->userRepository->restore($user);
+    }
+
+    /**
+     * Force delete a user
+     */
+    public function forceDelete(object $user): bool
+    {
+        return $this->userRepository->forceDelete($user);
+    }
+
+    /**
+     * Restore all deleted users
+     */
+    public function restoreAll(): bool
+    {
+        return $this->userRepository->restoreAll();
     }
 }

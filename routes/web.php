@@ -17,7 +17,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('user', UserController::class)->names('users');
+    Route::resource('users', UserController::class)->names('users');
+    Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::delete('users/{user}/force-delete', [UserController::class, 'restoreAll'])->name('users.force-delete');
+    Route::post('users/restore-all', [UserController::class, 'restoreAll'])->name('users.restore-all');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
