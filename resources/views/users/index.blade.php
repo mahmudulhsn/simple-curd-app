@@ -39,6 +39,12 @@
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->adddress }}</td>
                                             <td class="whitespace-nowrap px-6 py-4 float-right">
                                                 <button
+                                                    class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded">
+                                                    <a href="{{ route('users.show', $user->id) }}">
+                                                        Show
+                                                    </a>
+                                                </button>
+                                                <button
                                                     class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
                                                     <a href="{{ route('users.edit', $user->id) }}">
                                                         Edit
