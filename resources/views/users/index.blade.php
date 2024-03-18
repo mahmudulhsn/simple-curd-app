@@ -27,7 +27,6 @@
                                     <tr class="border-b border-neutral-200">
                                         <td class="whitespace-nowrap px-6 py-4">Name</td>
                                         <td class="whitespace-nowrap px-6 py-4">Email</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Address</td>
                                         <td class="whitespace-nowrap px-6 py-4 float-right">Action</td>
                                     </tr>
                                 </thead>
@@ -36,7 +35,6 @@
                                         <tr class="border-b border-neutral-200">
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->email }}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{{ $user->adddress }}</td>
                                             <td class="whitespace-nowrap px-6 py-4 float-right">
                                                 <button
                                                     class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded">

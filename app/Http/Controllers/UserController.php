@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
+use App\Http\Requests\UserRequest;
+use App\Services\AddressService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
     protected $userService;
+    protected $addressService;
 
     /**
-     * User controller constructor
+     * UserController constructor
      */
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, AddressService $addressService)
     {
         $this->userService = $userService;
+        $this->addressService = $addressService;
     }
 
     /**
@@ -26,7 +30,7 @@ class UserController extends Controller
     public function index(): View
     {
         return view('users.index', [
-            'users' => $this->userService->getAllUsers([]),
+            'users' => $this->userService->getAllUsers(['addresses']),
         ]);
     }
 
@@ -43,9 +47,24 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): RedirectResponse
     {
-        $this->userService->createUser($request->validated());
+        try {
+            DB::transaction(function () use ($request) {
+                $user = $this->userService->createUser($request->validated());
+                if ($user instanceof User) {
+                    foreach ($request->addresses as $address) {
+                        $this->addressService->createAddress([
+                            'user_id' => $user->id,
+                            'address' => $address
+                        ]);
+                    }
+                }
+            }, 5);
+            return redirect(route('users.index'))->with('success', 'User has been created successfully.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withInput()->with('error', 'Something went wrong!');
+        }
 
-        return redirect(route('users.index'))->with('success', 'User has been created successfully.');
+
     }
 
     /**
@@ -73,6 +92,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, string $id)
     {
+        dd($request->all());
         $user = $this->userService->getUserById($id);
         if ($user instanceof User) {
             $this->userService->updateUser($user, $request->validated());

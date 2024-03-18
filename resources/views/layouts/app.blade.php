@@ -37,6 +37,11 @@
             {{ $slot }}
         </main>
     </div>
+
+    @isset($extraJS)
+        {{ $extraJS }}
+    @endisset
+
     @include('partials._swal')
 </body>
 
