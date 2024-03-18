@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
     public function getAllUsers(?array $relationNames = []): LengthAwarePaginator
     {
         return $this->model
-            ->when(! empty($relationNames), function ($query) use ($relationNames) {
+            ->when(!empty ($relationNames), function ($query) use ($relationNames) {
                 return $query->with($relationNames);
             })
             ->oldest('name')
@@ -42,9 +42,9 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Find user by ID and return the user object
      */
-    public function getUserById(int $userID, ?array $relationNames = [], ?string $withTrashed = null): User
+    public function getUserById(string $userID, ?array $relationNames = [], ?string $withTrashed = null): User
     {
-        return $this->model->when(! empty($relationNames), function ($query) use ($relationNames) {
+        return $this->model->when(!empty ($relationNames), function ($query) use ($relationNames) {
             return $query->with($relationNames);
         })->when(($withTrashed == 'withTrashed'), function ($query) {
             return $query->withTrashed();
@@ -89,5 +89,13 @@ class UserRepository implements UserRepositoryInterface
     public function restoreAll(): bool
     {
         return $this->model->onlyTrashed()->restore();
+    }
+
+    /**
+     * Return all deleted users
+     */
+    public function trash(): LengthAwarePaginator
+    {
+        return $this->model->onlyTrashed()->paginate(10);
     }
 }

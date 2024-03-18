@@ -22,7 +22,7 @@ interface UserRepositoryInterface
     /**
      * Find user user by id and return user
      */
-    public function getUserById(int $userID, ?array $relationNames = [], ?string $withTrashed = null): User;
+    public function getUserById(string $userID, ?array $relationNames = [], ?string $withTrashed = null): User;
 
     /**
      * Update a a user
@@ -48,4 +48,8 @@ interface UserRepositoryInterface
      * Restore all deleted users
      */
     public function restoreAll(): bool;
+    /**
+     * Restore all deleted users
+     */
+    public function trash(): LengthAwarePaginator;
 }

@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('users', UserController::class)->names('users');
-    Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::get('users-list/trash', [UserController::class, 'trash'])->name('users.trash');
     Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('users/{user}/force-delete', [UserController::class, 'restoreAll'])->name('users.force-delete');
     Route::post('users/restore-all', [UserController::class, 'restoreAll'])->name('users.restore-all');

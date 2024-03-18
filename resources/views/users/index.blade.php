@@ -7,7 +7,7 @@
                 </h2>
             </div>
             <div class="w-50 flex gap-2">
-                <a href="{{ route('users.create') }}"
+                <a href="{{ route('users.trash') }}"
                     class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">Trash</a>
                 <a href="{{ route('users.create') }}"
                     class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Add new
@@ -36,28 +36,41 @@
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->email }}</td>
                                             <td class="whitespace-nowrap px-6 py-4 float-right">
-                                                <button
-                                                    class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded">
-                                                    <a href="{{ route('users.show', $user->id) }}">
-                                                        Show
-                                                    </a>
-                                                </button>
-                                                <button
-                                                    class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
-                                                    <a href="{{ route('users.edit', $user->id) }}">
-                                                        Edit
-                                                    </a>
-                                                </button>
-                                                <form action="{{ route('users.destroy', $user->id) }}" method="post"
-                                                    class="inline">
-                                                    @csrf
-                                                    @method('delete')
+                                                @if (Route::is('users.trash'))
+                                                    <form action="{{ route('users.destroy', $user->id) }}"
+                                                        method="post" class="inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button
+                                                            onclick="return confirm('Are you sure you want to delete this?')"
+                                                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                                            Restore
+                                                        </button>
+                                                    </form>
+                                                @else
                                                     <button
-                                                        onclick="return confirm('Are you sure you want to delete this?')"
-                                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                                        Delete
+                                                        class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded">
+                                                        <a href="{{ route('users.show', $user->id) }}">
+                                                            Show
+                                                        </a>
                                                     </button>
-                                                </form>
+                                                    <button
+                                                        class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
+                                                        <a href="{{ route('users.edit', $user->id) }}">
+                                                            Edit
+                                                        </a>
+                                                    </button>
+                                                    <form action="{{ route('users.destroy', $user->id) }}"
+                                                        method="post" class="inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button
+                                                            onclick="return confirm('Are you sure you want to delete this?')"
+                                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

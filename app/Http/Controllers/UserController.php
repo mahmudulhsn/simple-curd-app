@@ -31,7 +31,7 @@ class UserController extends Controller
     public function index(): View
     {
         return view('users.index', [
-            'users' => $this->userService->getAllUsers(['addresses']),
+            'users' => $this->userService->getAllUsers(),
         ]);
     }
 
@@ -168,5 +168,17 @@ class UserController extends Controller
         $this->userService->restoreAll();
 
         return redirect(route('users.index'))->with('success', 'All deleted users has been restored successfully.');
+    }
+
+    /**
+     * Restore all archived users
+     */
+    public function trash(): View
+    {
+        $this->userService->trash();
+
+        return view('users.index', [
+            'users' => $this->userService->trash(),
+        ]);
     }
 }

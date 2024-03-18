@@ -37,7 +37,7 @@ class UserService
     /**
      * Find user by ID and return the user object
      */
-    public function getUserById(int $userID, ?array $relationNames = [], ?string $withTrashed = null): User
+    public function getUserById(string $userID, ?array $relationNames = [], ?string $withTrashed = null): User
     {
         return $this->userRepository->getUserById($userID, $relationNames, $withTrashed);
     }
@@ -80,5 +80,12 @@ class UserService
     public function restoreAll(): bool
     {
         return $this->userRepository->restoreAll();
+    }
+    /**
+     * Return all deleted users
+     */
+    public function trash(): LengthAwarePaginator
+    {
+        return $this->userRepository->trash();
     }
 }
