@@ -4,10 +4,10 @@
             function addressData() {
                 return {
                     fields: [],
-                    addNewField(address = '', id = null) { // Adjusted to include an optional id parameter
+                    addNewField(address = '', id = null) {
                         this.fields.push({
                             address: address,
-                            id: id, // Include id in the object structure
+                            id: id,
                         });
                     },
                     removeField(index) {
@@ -15,15 +15,13 @@
                     },
                     async setAddress(userID) {
                         const res = await fetch(`/addresses/by-user/${userID}`);
-                        const addresses = await res.json(); // Assuming this directly gives the array
-
-                        // Update this mapping to reflect the correct data structure
+                        const addresses = await res.json();
                         this.fields = addresses.addresses.map(address => ({
                             address: address.address,
-                            id: address.id // Ensure that the id from the API response is captured
+                            id: address.id
                         }));
 
-                        console.log(this.fields); // This will now log the data in the desired format
+                        console.log(this.fields);
                     },
                 }
             }
@@ -78,11 +76,13 @@
                                 </div>
 
                                 <template x-for="(field, index) in fields" :key="index">
+
                                     <div class="flex gap-4 my-2">
+                                        <input type="hidden" name="addresses[id][]" x-model="field.id">
                                         <input type="text" x-model="field.address"
                                             class="bg-white border text-sm rounded-lg block w-full p-2.5"
-                                            name="addresses[]">
-                                        <span
+                                            name="addresses[address][]">
+                                        <span x-show="field.id ==null"
                                             class="w-10 bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded cursor-pointer"
                                             @click="removeField(index)">
                                             -

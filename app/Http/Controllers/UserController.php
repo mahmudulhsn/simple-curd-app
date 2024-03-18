@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Address;
 use App\Services\UserService;
-use App\Http\Requests\UserRequest;
 use App\Services\AddressService;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -92,11 +93,22 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, string $id)
     {
-        dd($request->all());
         $user = $this->userService->getUserById($id);
         if ($user instanceof User) {
             $this->userService->updateUser($user, $request->validated());
-
+            foreach ($request->addresses['id'] as $key => $addressID) {
+                if ($addressID !== null) {
+                    $address = $this->addressService->getAddressById($addressID);
+                    if ($address instanceof Address) {
+                        $this->addressService->updateAddress($address, ['address' => $request->addresses['address'][$key]]);
+                    }
+                } else {
+                    $this->addressService->createAddress([
+                        'user_id' => $id,
+                        'address' => $request->addresses['address'][$key]
+                    ]);
+                }
+            }
             return redirect(route('users.index'))->with('success', 'User has been deleted successfully.');
         }
 

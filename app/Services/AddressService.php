@@ -57,4 +57,12 @@ class AddressService
     {
         return $this->addressRepository->deleteAddress($address);
     }
+
+    /**
+     * Get address by user id
+     */
+    public function getAddressesByUser(string $userID): Collection
+    {
+        return $this->addressRepository->getAddressesByUser($userID);
+    }
 }

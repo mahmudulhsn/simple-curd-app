@@ -22,11 +22,16 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:30'],
-            // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'address' => ['nullable', 'string'],
+            'address.*.id' => ['nullable', 'numeric'],
+            'address.*.address' => ['nullable', 'string'],
         ];
+        if (!$this->user) {
+            $rules['password'] = ['required', 'confirmed', Rules\Password::defaults()];
+        }
+        return $rules;
     }
 }

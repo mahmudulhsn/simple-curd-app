@@ -63,4 +63,13 @@ class AddressRepository implements AddressRepositoryInterface
     {
         return $address->delete();
     }
+
+
+    /**
+     * Get address by user id
+     */
+    public function getAddressesByUser(string $userID): Collection
+    {
+        return $this->model->where('user_id', $userID)->get();
+    }
 }

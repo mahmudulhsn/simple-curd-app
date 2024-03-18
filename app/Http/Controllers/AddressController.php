@@ -4,11 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
+use App\Services\AddressService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AddressController extends Controller
 {
+    protected $addressService;
+
+    /**
+     * UserController constructor
+     */
+    public function __construct(AddressService $addressService)
+    {
+        $this->addressService = $addressService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -67,9 +78,8 @@ class AddressController extends Controller
 
     public function getAddressesByUser(string $userID): JsonResponse
     {
-        $addresses = Address::where('user_id', $userID)->get();
         return response()->json([
-            'addresses' => $addresses,
+            'addresses' => $this->addressService->getAddressesByUser($userID),
         ]);
     }
 }

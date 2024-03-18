@@ -33,4 +33,9 @@ interface AddressRepositoryInterface
      * Delete a Address
      */
     public function deleteAddress(object $address): bool;
+
+    /**
+     * Get address by user id
+     */
+    public function getAddressesByUser(string $userID): Collection;
 }
