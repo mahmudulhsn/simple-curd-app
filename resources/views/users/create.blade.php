@@ -31,7 +31,8 @@
             <div class="flex flex-col" x-data="address">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block w-full py-2 sm:px-6 lg:px-8">
-                        <form class="w-full mx-auto" action="{{ route('users.store') }}" method="POST">
+                        <form class="w-full mx-auto" action="{{ route('users.store') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="mb-5">
                                 <label for="name" class="block mb-2 text-sm font-medium ">Name <sup
@@ -48,6 +49,14 @@
                                     class="bg-white border text-sm rounded-lg  block w-full p-2.5"
                                     placeholder="email@example.com" name="email">
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            </div>
+                            <div class="mb-5">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 " for="large_size">
+                                    Upload Avatar
+                                </label>
+                                <input class="bg-white border text-sm rounded-lg  block w-full p-2.5 " id="large_size"
+                                    type="file" accept="image/*"name="avatar">
+                                <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
                             </div>
                             <div class="mb-5">
                                 <label for="email" class="block mb-2 text-sm font-medium">Address <sup

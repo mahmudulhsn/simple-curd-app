@@ -26,12 +26,15 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:30'],
             'address' => ['nullable', 'string'],
+            'avatar' => ['nullable', 'mimes:jpg,jpeg,png,webp', 'file'],
             'address.*.id' => ['nullable', 'numeric'],
             'address.*.address' => ['nullable', 'string'],
         ];
-        if (!$this->user) {
+        if (! $this->user) {
             $rules['password'] = ['required', 'confirmed', Rules\Password::defaults()];
+            $rules['avatar'] = ['required', 'mimes:jpg,jpeg,png,webp', 'file'];
         }
+
         return $rules;
     }
 }

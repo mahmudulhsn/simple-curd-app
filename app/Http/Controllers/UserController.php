@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Address;
-use App\Services\UserService;
-use App\Services\AddressService;
 use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\DB;
+use App\Models\Address;
+use App\Models\User;
+use App\Services\AddressService;
+use App\Services\MediaService;
+use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     protected $userService;
+
+    protected $mediaService;
+
     protected $addressService;
 
     /**
      * UserController constructor
      */
-    public function __construct(UserService $userService, AddressService $addressService)
+    public function __construct(UserService $userService, AddressService $addressService, MediaService $mediaService)
     {
         $this->userService = $userService;
+        $this->mediaService = $mediaService;
         $this->addressService = $addressService;
     }
 
@@ -50,21 +55,33 @@ class UserController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                $user = $this->userService->createUser($request->validated());
+                $file = null;
+
+                if ($request->hasFile('avatar')) {
+                    $file = $this->mediaService->uploadMedia($request->avatar, 'public/avatar');
+                }
+
+                $user = $this->userService->createUser([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'avatar' => $file,
+                    'password' => $request->password,
+                ]);
+
                 if ($user instanceof User) {
                     foreach ($request->addresses as $address) {
                         $this->addressService->createAddress([
                             'user_id' => $user->id,
-                            'address' => $address
+                            'address' => $address,
                         ]);
                     }
                 }
             }, 5);
+
             return redirect(route('users.index'))->with('success', 'User has been created successfully.');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', 'Something went wrong!');
         }
-
 
     }
 
@@ -95,7 +112,17 @@ class UserController extends Controller
     {
         $user = $this->userService->getUserById($id);
         if ($user instanceof User) {
-            $this->userService->updateUser($user, $request->validated());
+            $userData = $request->only(['name', 'email', 'password']);
+
+            if ($request->hasFile('avatar')) {
+                if ($user->avatar) {
+                    $this->mediaService->deleteMedia($user->avatar);
+                }
+                $file = $this->mediaService->uploadMedia($request->avatar, 'public/avatar');
+                $userData['avatar'] = $file;
+            }
+
+            $this->userService->updateUser($user, $userData);
             foreach ($request->addresses['id'] as $key => $addressID) {
                 if ($addressID !== null) {
                     $address = $this->addressService->getAddressById($addressID);
@@ -105,10 +132,11 @@ class UserController extends Controller
                 } else {
                     $this->addressService->createAddress([
                         'user_id' => $id,
-                        'address' => $request->addresses['address'][$key]
+                        'address' => $request->addresses['address'][$key],
                     ]);
                 }
             }
+
             return redirect(route('users.index'))->with('success', 'User has been deleted successfully.');
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService
@@ -81,6 +81,7 @@ class UserService
     {
         return $this->userRepository->restoreAll();
     }
+
     /**
      * Return all deleted users
      */

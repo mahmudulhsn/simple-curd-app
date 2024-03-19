@@ -35,6 +35,7 @@
                                 <thead class="border-b border-neutral-200 font-medium ">
                                     <tr class="border-b border-neutral-200">
                                         <td class="whitespace-nowrap px-6 py-4">Name</td>
+                                        <td class="whitespace-nowrap px-6 py-4">Avatar</td>
                                         <td class="whitespace-nowrap px-6 py-4">Email</td>
                                         <td class="whitespace-nowrap px-6 py-4 float-right">Action</td>
                                     </tr>
@@ -43,8 +44,15 @@
                                     @foreach ($users as $user)
                                         <tr class="border-b border-neutral-200">
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
+                                            <td class="whitespace-nowrap px-6 py-4">
+                                                @if ($user->avatar)
+                                                    <img src="{{ Storage::url($user->avatar) }}" alt=""
+                                                        width="50px" height="50px">
+                                                @endif
+                                            </td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->email }}</td>
-                                            <td class="whitespace-nowrap py-4 float-right">
+                                            <td
+                                                class="whitespace-nowrap py-4 float-right px-6 flex justify-center items-center">
                                                 @if (Route::is('users.trash'))
                                                     <div class="flex justify-between gap-4">
                                                         <form action="{{ route('users.restore', $user->id) }}"

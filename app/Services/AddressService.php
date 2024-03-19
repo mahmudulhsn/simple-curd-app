@@ -37,7 +37,7 @@ class AddressService
     /**
      * Find Address by ID and return the Address object
      */
-    public function getAddressById(int $addressID, ?array $relationNames = [], ): Address
+    public function getAddressById(int $addressID, ?array $relationNames = []): Address
     {
         return $this->addressRepository->getAddressById($addressID, $relationNames);
     }

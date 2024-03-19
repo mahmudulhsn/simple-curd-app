@@ -9,8 +9,6 @@ interface AddressRepositoryInterface
 {
     /**
      * Return all Addresses
-     *
-     * @param  array  $relationship
      */
     public function getAllAddresses(?array $relationNames = []): Collection;
 

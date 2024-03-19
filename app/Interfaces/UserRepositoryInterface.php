@@ -9,8 +9,6 @@ interface UserRepositoryInterface
 {
     /**
      * Return all users
-     *
-     * @param  array  $relationship
      */
     public function getAllUsers(?array $relationNames = []): LengthAwarePaginator;
 
@@ -48,6 +46,7 @@ interface UserRepositoryInterface
      * Restore all deleted users
      */
     public function restoreAll(): bool;
+
     /**
      * Restore all deleted users
      */

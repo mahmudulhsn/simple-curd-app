@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,9 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('users/{user}/force-delete', [UserController::class, 'forceDelete'])->name('users.force-delete');
     Route::post('users/restore-all', [UserController::class, 'restoreAll'])->name('users.restore-all');
 
-
     Route::get('addresses/by-user/{userID}', [AddressController::class, 'getAddressesByUser']);
 
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

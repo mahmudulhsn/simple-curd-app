@@ -24,7 +24,7 @@ class AddressRepository implements AddressRepositoryInterface
     public function getAllAddresses(?array $relationNames = []): Collection
     {
         return $this->model
-            ->when(!empty ($relationNames), function ($query) use ($relationNames) {
+            ->when(! empty($relationNames), function ($query) use ($relationNames) {
                 return $query->with($relationNames);
             })
             ->get();
@@ -43,7 +43,7 @@ class AddressRepository implements AddressRepositoryInterface
      */
     public function getAddressById(int $addressID, ?array $relationNames = []): Address
     {
-        return $this->model->when(!empty ($relationNames), function ($query) use ($relationNames) {
+        return $this->model->when(! empty($relationNames), function ($query) use ($relationNames) {
             return $query->with($relationNames);
         })->where('id', $addressID)->latest()->first();
     }
@@ -63,7 +63,6 @@ class AddressRepository implements AddressRepositoryInterface
     {
         return $address->delete();
     }
-
 
     /**
      * Get address by user id
