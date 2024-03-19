@@ -137,7 +137,7 @@ class UserController extends Controller
     {
         $user = $this->userService->getUserById($id, [], 'withTrashed');
         if ($user instanceof User) {
-            $this->userService->forceDelete($user);
+            $this->userService->restore($user);
 
             return redirect(route('users.index'))->with('success', 'User has been restored successfully.');
         }
@@ -154,10 +154,10 @@ class UserController extends Controller
         if ($user instanceof User) {
             $this->userService->forceDelete($user);
 
-            return redirect(route('users.index'))->with('success', 'User has been deleted permanently.');
+            return redirect()->back()->with('success', 'User has been deleted permanently.');
         }
 
-        return redirect(route('users.index'))->with('error', 'Something went wrong!');
+        return redirect()->back()->with('error', 'Something went wrong!');
     }
 
     /**

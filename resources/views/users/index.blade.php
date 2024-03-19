@@ -7,6 +7,15 @@
                 </h2>
             </div>
             <div class="w-50 flex gap-2">
+                @if (Route::is('users.trash'))
+                    <form action="{{ route('users.restore-all') }}" method="post" class="inline">
+                        @csrf
+                        <button onclick="return confirm('Are you sure you want to restore all the data?')"
+                            class="bg-teal-600 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded">
+                            Restore
+                        </button>
+                    </form>
+                @endif
                 <a href="{{ route('users.trash') }}"
                     class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">Trash</a>
                 <a href="{{ route('users.create') }}"
@@ -35,41 +44,50 @@
                                         <tr class="border-b border-neutral-200">
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->email }}</td>
-                                            <td class="whitespace-nowrap px-6 py-4 float-right">
+                                            <td class="whitespace-nowrap py-4 float-right">
                                                 @if (Route::is('users.trash'))
-                                                    <form action="{{ route('users.destroy', $user->id) }}"
-                                                        method="post" class="inline">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button
-                                                            onclick="return confirm('Are you sure you want to delete this?')"
-                                                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                                            Restore
-                                                        </button>
-                                                    </form>
+                                                    <div class="flex justify-between gap-4">
+                                                        <form action="{{ route('users.restore', $user->id) }}"
+                                                            method="post" class="inline">
+                                                            @csrf
+                                                            <button
+                                                                onclick="return confirm('Are you sure you want to restore this?')"
+                                                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                                                Restore
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('users.force-delete', $user->id) }}"
+                                                            method="post" class="inline">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button
+                                                                onclick="return confirm('Are you sure you want to restore this?')"
+                                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                                Permanent Delete
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 @else
-                                                    <button
-                                                        class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded">
-                                                        <a href="{{ route('users.show', $user->id) }}">
+                                                    <div class="flex justify-between gap-4">
+                                                        <a class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded"
+                                                            href="{{ route('users.show', $user->id) }}">
                                                             Show
                                                         </a>
-                                                    </button>
-                                                    <button
-                                                        class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
-                                                        <a href="{{ route('users.edit', $user->id) }}">
+                                                        <a class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+                                                            href="{{ route('users.edit', $user->id) }}">
                                                             Edit
                                                         </a>
-                                                    </button>
-                                                    <form action="{{ route('users.destroy', $user->id) }}"
-                                                        method="post" class="inline">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button
-                                                            onclick="return confirm('Are you sure you want to delete this?')"
-                                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                                            Delete
-                                                        </button>
-                                                    </form>
+                                                        <form action="{{ route('users.destroy', $user->id) }}"
+                                                            method="post" class="inline">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button
+                                                                onclick="return confirm('Are you sure you want to delete this?')"
+                                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>
