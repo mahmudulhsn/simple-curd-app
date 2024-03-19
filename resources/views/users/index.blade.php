@@ -46,8 +46,9 @@
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->name }}</td>
                                             <td class="whitespace-nowrap px-6 py-4">
                                                 @if ($user->avatar)
-                                                    <img src="{{ Storage::url($user->avatar) }}" alt=""
-                                                        width="50px" height="50px">
+                                                    <img class="rounded h-10 w-10"
+                                                        src="{{ Storage::url($user->avatar) }}"
+                                                        alt="{{ $user->name }}">
                                                 @endif
                                             </td>
                                             <td class="whitespace-nowrap px-6 py-4">{{ $user->email }}</td>
