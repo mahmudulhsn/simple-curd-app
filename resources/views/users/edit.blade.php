@@ -83,7 +83,6 @@
                                 </div>
 
                                 <template x-for="(field, index) in fields" :key="index">
-
                                     <div class="flex gap-4 my-2">
                                         <input type="hidden" name="addresses[id][]" x-model="field.id">
                                         <input type="text" x-model="field.address"

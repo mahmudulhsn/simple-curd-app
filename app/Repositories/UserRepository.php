@@ -46,7 +46,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->model->when(!empty ($relationNames), function ($query) use ($relationNames) {
             return $query->with($relationNames);
-        })->find($userID);
+        })->when(($withTrashed == 'withTrashed'), function ($query) {
+            return $query->withTrashed();
+        })->where('id', $userID)->latest()->first();
     }
 
     /**

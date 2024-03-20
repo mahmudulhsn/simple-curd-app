@@ -25,7 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::post('users/restore-all', [UserController::class, 'restoreAll'])->name('users.restore-all');
 
     Route::get('addresses/by-user/{userID}', [AddressController::class, 'getAddressesByUser']);
+    Route::delete('addresses/delete/{address}', [AddressController::class, 'destroy'])->name('addresses.delete');
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

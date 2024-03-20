@@ -123,17 +123,20 @@ class UserController extends Controller
             }
 
             $this->userService->updateUser($user, $userData);
-            foreach ($request->addresses['id'] as $key => $addressID) {
-                if ($addressID !== null) {
-                    $address = $this->addressService->getAddressById($addressID);
-                    if ($address instanceof Address) {
-                        $this->addressService->updateAddress($address, ['address' => $request->addresses['address'][$key]]);
+
+            if (isset ($request->addresses)) {
+                foreach ($request->addresses['id'] as $key => $addressID) {
+                    if ($addressID !== null) {
+                        $address = $this->addressService->getAddressById($addressID);
+                        if ($address instanceof Address) {
+                            $this->addressService->updateAddress($address, ['address' => $request->addresses['address'][$key]]);
+                        }
+                    } else {
+                        $this->addressService->createAddress([
+                            'user_id' => $id,
+                            'address' => $request->addresses['address'][$key],
+                        ]);
                     }
-                } else {
-                    $this->addressService->createAddress([
-                        'user_id' => $id,
-                        'address' => $request->addresses['address'][$key],
-                    ]);
                 }
             }
 
