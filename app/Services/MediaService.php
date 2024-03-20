@@ -6,12 +6,10 @@ use App\Interfaces\MediaRepositoryInterface;
 
 class MediaService
 {
-    protected $mediaRepository;
-
     /**
      * MediaService constructor.
      */
-    public function __construct(MediaRepositoryInterface $mediaRepository)
+    public function __construct(protected MediaRepositoryInterface $mediaRepository)
     {
         $this->mediaRepository = $mediaRepository;
     }

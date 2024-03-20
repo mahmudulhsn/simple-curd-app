@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\CreateUser;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendCreatedUserNotification
 {
@@ -22,6 +20,6 @@ class SendCreatedUserNotification
      */
     public function handle(CreateUser $event): void
     {
-        Log::info($event->user->name . " has been created.");
+        Log::info($event->user->name.' has been created.');
     }
 }

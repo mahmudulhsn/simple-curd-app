@@ -9,12 +9,10 @@ use Illuminate\Http\RedirectResponse;
 
 class AddressController extends Controller
 {
-    protected $addressService;
-
     /**
      * UserController constructor
      */
-    public function __construct(AddressService $addressService)
+    public function __construct(protected AddressService $addressService)
     {
         $this->addressService = $addressService;
     }

@@ -14,16 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    protected $userService;
-
-    protected $mediaService;
-
-    protected $addressService;
-
     /**
      * UserController constructor
      */
-    public function __construct(UserService $userService, AddressService $addressService, MediaService $mediaService)
+    public function __construct(protected UserService $userService, protected AddressService $addressService, protected MediaService $mediaService)
     {
         $this->userService = $userService;
         $this->mediaService = $mediaService;

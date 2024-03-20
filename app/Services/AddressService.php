@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AddressService
 {
-    protected $addressRepository;
-
     /**
      * AddressService constructor.
      */
-    public function __construct(AddressRepositoryInterface $addressRepository)
+    public function __construct(protected AddressRepositoryInterface $addressRepository)
     {
         $this->addressRepository = $addressRepository;
     }

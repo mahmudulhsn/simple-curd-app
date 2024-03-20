@@ -8,12 +8,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService
 {
-    protected $userRepository;
-
     /**
      * UserService constructor.
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(protected UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
