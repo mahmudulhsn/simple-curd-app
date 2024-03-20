@@ -27,8 +27,10 @@ class AddressController extends Controller
         $address = $this->addressService->getAddressById($id);
         if ($address instanceof Address) {
             $this->addressService->deleteAddress($address);
+
             return redirect()->back()->with('success', 'Address deleted successfully');
         }
+
         return redirect()->back()->with('error', 'Something went wrong!');
     }
 

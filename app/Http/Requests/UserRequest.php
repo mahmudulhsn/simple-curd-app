@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
         $rules = [
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:30'],
-            'address' => ['nullable', 'string'],
+            'address' => ['nullable', 'string', 'max:255'],
             'avatar' => ['nullable', 'mimes:jpg,jpeg,png,webp', 'file'],
             'address.*.id' => ['nullable', 'numeric'],
             'address.*.address' => ['nullable', 'string'],

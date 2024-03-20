@@ -124,7 +124,7 @@ class UserController extends Controller
 
             $this->userService->updateUser($user, $userData);
 
-            if (isset ($request->addresses)) {
+            if (isset($request->addresses)) {
                 foreach ($request->addresses['id'] as $key => $addressID) {
                     if ($addressID !== null) {
                         $address = $this->addressService->getAddressById($addressID);
