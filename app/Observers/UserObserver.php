@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Events\CreateUser;
+use App\Events\UpdateUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -12,7 +14,8 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        Log::info("$user->name has been created.");
+        // Log::info("$user->name has been created.");
+        CreateUser::dispatch($user);
     }
 
     /**
@@ -20,7 +23,8 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        Log::info("$user->name has been updated.");
+        // Log::info("$user->name has been updated.");
+        UpdateUser::dispatch($user);
     }
 
     /**
