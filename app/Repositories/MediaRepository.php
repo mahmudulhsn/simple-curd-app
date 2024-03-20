@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\MediaRepositoryInterface;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Interfaces\MediaRepositoryInterface;
 
 class MediaRepository implements MediaRepositoryInterface
 {
@@ -12,7 +13,7 @@ class MediaRepository implements MediaRepositoryInterface
      */
     public function uploadMedia(object $file, string $path): string
     {
-        return $file->storeAs($path, str_replace('-', ' ', $file->getClientOriginalName()).'.'.$file->getClientOriginalExtension());
+        return $file->storeAs($path, str_replace('-', ' ', $file->getClientOriginalName()) . '.' . Str::random(56) . '.' . $file->getClientOriginalExtension());
     }
 
     /**
