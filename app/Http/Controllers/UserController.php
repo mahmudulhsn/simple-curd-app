@@ -106,7 +106,7 @@ class UserController extends Controller
     {
         $user = $this->userService->getUserById($id);
         if ($user instanceof User) {
-            $userData = $request->only(['name', 'email', 'password']);
+            $userData = $request->only(['name', 'email']);
 
             if ($request->hasFile('avatar')) {
                 if ($user->avatar) {
