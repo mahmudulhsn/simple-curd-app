@@ -29,8 +29,7 @@
                         <div class="mb-5">
                             <label for="email" class="block mb-2 text-sm font-medium">Avatar </label>
                             @if ($user->avatar)
-                                <img class="rounded h-20 w-20" src="{{ Storage::url(Auth::user()->avatar) }}"
-                                    alt="Avatar">
+                                <img class="rounded h-20 w-20" src="{{ Storage::url($user->avatar) }}" alt="Avatar" />
                             @else
                                 No image added!
                             @endif
